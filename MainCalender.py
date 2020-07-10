@@ -240,7 +240,6 @@ def Calender():
                 style.theme_use('clam')
 
             root.mainloop()
-
         if __name__ == '__main__':
             test()
     From_function()
