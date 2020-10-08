@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['MainCalender.py'],
-             pathex=['F:\\Github Projects\\tenders.etimad.sa'],
+             pathex=['F:\\Office Projects\\tenders.etimad.sa'],
              binaries=[],
              datas=[],
              hiddenimports=[],

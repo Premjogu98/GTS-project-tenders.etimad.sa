@@ -232,7 +232,7 @@ def scrap_data(get_htmlSourcenew,reference_number,The_name_of_the_competition,Go
     html_data = html_data.replace(str(html_data_removed_image),'')
     get_htmlSource1 = html.unescape(str(html_data))
     SegField = []
-    for data in range(42):
+    for data in range(45):
         SegField.append('')
 
     a = True
@@ -245,10 +245,13 @@ def scrap_data(get_htmlSourcenew,reference_number,The_name_of_the_competition,Go
             SegField[12] = Governmental_authority
             SegField[13] = reference_number
             SegField[19] = The_name_of_the_competition
-
-            datetime_object = datetime.strptime(The_deadline_for_submitting_offers, '%d/%m/%Y')
-            Deadline = datetime_object.strftime("%Y-%m-%d")
-            SegField[24] = Deadline
+            try:
+                datetime_object = datetime.strptime(The_deadline_for_submitting_offers, '%d/%m/%Y')
+                Deadline = datetime_object.strftime("%Y-%m-%d")
+                SegField[24] = Deadline
+            except:
+                wx.MessageBox('DeadLine NOt Given ','tenders.etimad.sa', wx.OK | wx.ICON_ERROR)
+                pass
 
             SegField[18] = f"{str(SegField[19])}<br>\nالغرض من المنافسة: {The_purpose_of_the_competition}<br>\nقيمة وثائق المنافسة: {The_value_of_competition_documents}<br>\nرقم المنافسة: {Competition_number}\
                 <br>\nA Primary Warranty Is Required: {A_primary_warranty_is_required}<br>\nطريقة تقديم العروض: {Method_of_submitting_offers}<br>\nCompetition case: {Competition_case} "
@@ -263,7 +266,10 @@ def scrap_data(get_htmlSourcenew,reference_number,The_name_of_the_competition,Go
             SegField[14] = '2'
             SegField[16] = '1'
             SegField[17] = '0'
-
+            SegField[20] = ""
+            SegField[21] = "" 
+            SegField[42] = SegField[7]
+            SegField[43] = ""
             for SegIndex in range(len(SegField)):
                 print(SegIndex, end=' ')
                 print(SegField[SegIndex])
