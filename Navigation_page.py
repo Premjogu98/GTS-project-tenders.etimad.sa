@@ -107,7 +107,7 @@ def collect_data(Collected_href,browser):
                         The_name_of_the_competition = The_name_of_the_competition.get_attribute('innerText').strip()
                         # print(The_name_of_the_competition)
                         break
-                    for Governmental_authority in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[3]/div/div[2]/span'):
+                    for Governmental_authority in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[2]/div/div[2]/span'):
                         Governmental_authority = Governmental_authority.get_attribute('innerText').strip()
                         # print(Governmental_authority)
                         break
@@ -149,15 +149,15 @@ def collect_data(Collected_href,browser):
                         Competition_type = Competition_type.get_attribute('innerText').strip()
                         # print(Competition_type)
                         break
-                    for Competition_case in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[2]/div/div[2]/span'):
-                        Competition_case = Competition_case.get_attribute('innerText').strip()
-                        # print(Competition_case)
-                        break
-                    for Method_of_submitting_offers in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[5]/div/div[2]/span'):
-                        Method_of_submitting_offers = Method_of_submitting_offers.get_attribute('innerText').strip()
-                        # print(Method_of_submitting_offers)
-                        break
-                    for A_primary_warranty_is_required in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[6]/div/div[2]/span'):
+                    # for Competition_case in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[2]/div/div[2]/span'):
+                    #     Competition_case = Competition_case.get_attribute('innerText').strip()
+                    #     # print(Competition_case)
+                    #     break
+                    # for Method_of_submitting_offers in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[5]/div/div[2]/span'):
+                    #     Method_of_submitting_offers = Method_of_submitting_offers.get_attribute('innerText').strip()
+                    #     # print(Method_of_submitting_offers)
+                    #     break
+                    for A_primary_warranty_is_required in browser.find_elements_by_xpath('//*[@id="basicDetials"]/div[3]/ul/li[5]/div/div[2]/span'):
                         A_primary_warranty_is_required = A_primary_warranty_is_required.get_attribute('innerText').strip()
                         # print(A_primary_warranty_is_required)
                         break
@@ -206,7 +206,7 @@ def collect_data(Collected_href,browser):
                 # print(get_htmlsource)
                 if get_htmlsource != '':
                     scrap_data(get_htmlsource,reference_number,The_name_of_the_competition,Governmental_authority,Primary_warranty_address,Competition_number,The_purpose_of_the_competition,
-                    Competition_type,Method_of_submitting_offers,A_primary_warranty_is_required,The_value_of_competition_documents,The_deadline_for_submitting_offers,Competition_case,href,Where_to_open_the_show)
+                    Competition_type,A_primary_warranty_is_required,The_value_of_competition_documents,The_deadline_for_submitting_offers,href,Where_to_open_the_show)
                     print(f'Total: {str(Global_var.Total)} Deadline Not given: {Global_var.deadline_Not_given} duplicate: {Global_var.duplicate} inserted: {Global_var.inserted} expired: {Global_var.expired} QC Tenders: {Global_var.QC_Tenders}')
                     time.sleep(3)
                     loop = False
@@ -225,7 +225,7 @@ def collect_data(Collected_href,browser):
     sys.exit()
 
 def scrap_data(get_htmlSourcenew,reference_number,The_name_of_the_competition,Governmental_authority,Primary_warranty_address,Competition_number,The_purpose_of_the_competition,
-    Competition_type,Method_of_submitting_offers,A_primary_warranty_is_required,The_value_of_competition_documents,The_deadline_for_submitting_offers,Competition_case,href,Where_to_open_the_show):
+    Competition_type,A_primary_warranty_is_required,The_value_of_competition_documents,The_deadline_for_submitting_offers,href,Where_to_open_the_show):
     
     html_data = get_htmlSourcenew
     html_data_removed_image = html_data.partition('class="pull-right">')[2].partition("</span>")[0].strip()
@@ -241,7 +241,10 @@ def scrap_data(get_htmlSourcenew,reference_number,The_name_of_the_competition,Go
             if Primary_warranty_address != '':
                 SegField[2] = Primary_warranty_address
             else:
-                SegField[2] = f'{Where_to_open_the_show}, Saudi Arabia'
+                if 'لا يوجد' in Where_to_open_the_show:
+                    SegField[2] = f'Saudi Arabia'
+                else:
+                    SegField[2] = f'{Where_to_open_the_show}, Saudi Arabia'
             SegField[12] = Governmental_authority
             SegField[13] = reference_number
             SegField[19] = The_name_of_the_competition
@@ -254,7 +257,7 @@ def scrap_data(get_htmlSourcenew,reference_number,The_name_of_the_competition,Go
                 pass
 
             SegField[18] = f"{str(SegField[19])}<br>\nالغرض من المنافسة: {The_purpose_of_the_competition}<br>\nقيمة وثائق المنافسة: {The_value_of_competition_documents}<br>\nرقم المنافسة: {Competition_number}\
-                <br>\nA Primary Warranty Is Required: {A_primary_warranty_is_required}<br>\nطريقة تقديم العروض: {Method_of_submitting_offers}<br>\nCompetition case: {Competition_case} "
+                <br>\nA Primary Warranty Is Required: {A_primary_warranty_is_required}"
             
             SegField[28] = href
 
