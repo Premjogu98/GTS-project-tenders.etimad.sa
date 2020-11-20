@@ -14,12 +14,9 @@ from Insert_On_databse import insert_in_Local
 
 def ChromeDriver():
     browser = webdriver.Chrome(executable_path=str(f"C:\\chromedriver.exe"))
-    browser.get("""https://chrome.google.com/webstore/detail/browsec-vpn-free-and-unli/omghfjlpggmjjaagoclmmobgdodcjboh?hl=en" ping="/url?sa=t&amp;source=web&amp;rct=j&amp;url=https://chrome.google.com/webstore/detail/browsec-vpn-free-and-unli/omghfjlpggmjjaagoclmmobgdodcjboh%3Fhl%3Den&amp;ved=2ahUKEwivq8rjlcHmAhVtxzgGHZ-JBMgQFjAAegQIAhAB""")
-    wx.MessageBox(' -_-  Add Extension and Select Proxy Between 25 SEC -_- ', 'Info', wx.OK | wx.ICON_WARNING)
-    time.sleep(25)  # WAIT UNTIL CHANGE THE MANUAL VPN SETTING
-    browser.get("https://tenders.etimad.sa/Tender/AllTendersForVisitor")
     browser.maximize_window()
-    time.sleep(2)
+    browser.get("https://tenders.etimad.sa/Tender/AllTendersForVisitor")
+    time.sleep(4)
     Collected_href = []
     next_page_loop = True
     clicked = False
@@ -27,6 +24,7 @@ def ChromeDriver():
     while next_page_loop == True:
         for i in range(1,7,1): 
             for links in browser.find_elements_by_xpath('/html/body/div[9]/div/div/form/div[1]/div[3]/div[2]/div[1]/div['+str(i)+']/div/div/div[1]/div/div/div[1]/div/div[3]/h3/a'):
+                browser.execute_script("arguments[0].scrollIntoView();", links)
                 links = links.get_attribute('href')
             for date in browser.find_elements_by_xpath('//*[@id="cardsresult"]/div[1]/div/div/div/div[1]/div/div['+str(i)+']/div[1]/div/div[1]/span'):
                 Date = date.get_attribute('innerText').strip()
@@ -57,15 +55,16 @@ def ChromeDriver():
                 break
                 
         if next_page_loop == True:
-            browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")  # Scroll Down To Page
             time.sleep(3)
             for next_page in browser.find_elements_by_xpath('//*[@id="cardsresult"]/div[2]/div/nav/ul/li[5]/button/span'):
+                browser.execute_script("arguments[0].scrollIntoView();", next_page)
                 next_page.click()
                 time.sleep(2)
                 clicked = True
                 break
             if clicked ==  True:
                 for next_page in browser.find_elements_by_xpath('//*[@id="cardsresult"]/div[2]/div/nav/ul/li[6]/button/span'):
+                    browser.execute_script("arguments[0].scrollIntoView();", next_page)
                     next_page.click()
                     time.sleep(2)
                     break
@@ -127,14 +126,16 @@ def collect_data(Collected_href,browser):
                     while a == True:
                         try:
                             for showmore in browser.find_elements_by_xpath('//*[@id="subPurposSapn"]/i'):
+                                browser.execute_script("arguments[0].scrollIntoView();", showmore)
                                 showmore.click()
-                                time.sleep(1)
+                                time.sleep(2)
                                 a = False
                                 break
                             if a == True:
                                 for showmore in browser.find_elements_by_xpath('//*[@id="purposeSpan"]/i'):
+                                    browser.execute_script("arguments[0].scrollIntoView();", showmore)
                                     showmore.click()
-                                    time.sleep(1)
+                                    time.sleep(2)
                                     a = False
                                     break
                         except:
@@ -170,8 +171,9 @@ def collect_data(Collected_href,browser):
                 while b == True:
                     try:
                         for Click_on_schedule_tab in browser.find_elements_by_xpath('//*[@id="tenderDatesTab"]'):
+                            browser.execute_script("arguments[0].scrollIntoView();", Click_on_schedule_tab)
                             Click_on_schedule_tab.click()
-                            time.sleep(2)
+                            time.sleep(3)
                             break
                         b = False
                     except:
@@ -190,8 +192,9 @@ def collect_data(Collected_href,browser):
                 while c == True:
                     try:
                         for Click_on_list_tab in browser.find_elements_by_xpath('//*[@id="relationStepTab"]'):
+                            browser.execute_script("arguments[0].scrollIntoView();", Click_on_list_tab)
                             Click_on_list_tab.click()
-                            time.sleep(2)
+                            time.sleep(3)
                             break
                         c = False
                     except:
