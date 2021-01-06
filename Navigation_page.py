@@ -13,7 +13,7 @@ app = wx.App()
 from Insert_On_databse import insert_in_Local
 
 def ChromeDriver():
-    browser = webdriver.Chrome(executable_path=str(f"C:\\chromedriver.exe"))
+    browser = webdriver.Chrome(executable_path=str(f"C:\\Translation EXE\\chromedriver.exe"))
     browser.maximize_window()
     browser.get("https://tenders.etimad.sa/Tender/AllTendersForVisitor")
     time.sleep(4)
@@ -56,18 +56,29 @@ def ChromeDriver():
                 
         if next_page_loop == True:
             time.sleep(3)
-            for next_page in browser.find_elements_by_xpath('//*[@id="cardsresult"]/div[2]/div/nav/ul/li[5]/button/span'):
-                browser.execute_script("arguments[0].scrollIntoView();", next_page)
-                next_page.click()
-                time.sleep(2)
-                clicked = True
-                break
-            if clicked ==  True:
-                for next_page in browser.find_elements_by_xpath('//*[@id="cardsresult"]/div[2]/div/nav/ul/li[6]/button/span'):
-                    browser.execute_script("arguments[0].scrollIntoView();", next_page)
-                    next_page.click()
-                    time.sleep(2)
+            while True:
+                try:
+                    for next_page in browser.find_elements_by_xpath('//*[@id="cardsresult"]/div[2]/div/nav/ul/li[5]/button/span'):
+                        browser.execute_script("arguments[0].scrollIntoView();", next_page)
+                        next_page.click()
+                        time.sleep(2)
+                        clicked = True
+                        break
                     break
+                except:
+                    print('Error On Next Page 1')
+                    time.sleep(2)
+            if clicked ==  True:
+                while True:
+                    try:
+                        for next_page in browser.find_elements_by_xpath('//*[@id="cardsresult"]/div[2]/div/nav/ul/li[6]/button/span'):
+                            browser.execute_script("arguments[0].scrollIntoView();", next_page)
+                            next_page.click()
+                            time.sleep(2)
+                            break
+                        break
+                    except:
+                        print('Error On Next Page 2')
 
 def collect_data(Collected_href,browser):
 
@@ -126,14 +137,14 @@ def collect_data(Collected_href,browser):
                     while a == True:
                         try:
                             for showmore in browser.find_elements_by_xpath('//*[@id="subPurposSapn"]/i'):
-                                browser.execute_script("arguments[0].scrollIntoView();", showmore)
+                                # browser.execute_script("arguments[0].scrollIntoView();", showmore)
                                 showmore.click()
                                 time.sleep(2)
                                 a = False
                                 break
                             if a == True:
                                 for showmore in browser.find_elements_by_xpath('//*[@id="purposeSpan"]/i'):
-                                    browser.execute_script("arguments[0].scrollIntoView();", showmore)
+                                    # browser.execute_script("arguments[0].scrollIntoView();", showmore)
                                     showmore.click()
                                     time.sleep(2)
                                     a = False
@@ -171,30 +182,36 @@ def collect_data(Collected_href,browser):
                 while b == True:
                     try:
                         for Click_on_schedule_tab in browser.find_elements_by_xpath('//*[@id="tenderDatesTab"]'):
-                            browser.execute_script("arguments[0].scrollIntoView();", Click_on_schedule_tab)
+                            # browser.execute_script("arguments[0].scrollIntoView();", Click_on_schedule_tab)
                             Click_on_schedule_tab.click()
-                            time.sleep(3)
+                            time.sleep(5)
                             break
                         b = False
                     except:
                         print('Error On Click_on_schedule_tab Element')
                         time.sleep(2)
                         b = True
-
-                for d2_html_source in browser.find_elements_by_xpath('//*[@id="d-2"]'):
-                    d2_html_source = d2_html_source.get_attribute('outerHTML')
-                    for The_deadline_for_submitting_offers in browser.find_elements_by_xpath('//*[@id="offerDetials"]/div[2]/ul/li[2]/div/div[2]/span[1]'):
-                        The_deadline_for_submitting_offers = The_deadline_for_submitting_offers.get_attribute('innerText').strip()
-                        # print(The_deadline_for_submitting_offers)
+                found_or_not_count = 0
+                while True:
+                    for d2_html_source in browser.find_elements_by_xpath('//*[@id="d-2"]'):
+                        d2_html_source = d2_html_source.get_attribute('outerHTML')
+                        for The_deadline_for_submitting_offers in browser.find_elements_by_xpath('//*[@id="offerDetials"]/div[2]/ul/li[2]/div/div[2]/span[1]'):
+                            The_deadline_for_submitting_offers = The_deadline_for_submitting_offers.get_attribute('innerText').strip()
+                            found_or_not_count += 1
+                            # print(The_deadline_for_submitting_offers)
+                            break
                         break
-                    break
+                    if found_or_not_count == 2:
+                        break
+                    if The_deadline_for_submitting_offers != "":
+                        break
                 c = True
                 while c == True:
                     try:
                         for Click_on_list_tab in browser.find_elements_by_xpath('//*[@id="relationStepTab"]'):
-                            browser.execute_script("arguments[0].scrollIntoView();", Click_on_list_tab)
+                            # browser.execute_script("arguments[0].scrollIntoView();", Click_on_list_tab)
                             Click_on_list_tab.click()
-                            time.sleep(3)
+                            time.sleep(5)
                             break
                         c = False
                     except:
@@ -256,7 +273,7 @@ def scrap_data(get_htmlSourcenew,reference_number,The_name_of_the_competition,Go
                 Deadline = datetime_object.strftime("%Y-%m-%d")
                 SegField[24] = Deadline
             except:
-                wx.MessageBox('DeadLine NOt Given ','tenders.etimad.sa', wx.OK | wx.ICON_ERROR)
+                # wx.MessageBox('DeadLine NOt Given ','tenders.etimad.sa', wx.OK | wx.ICON_ERROR)
                 pass
 
             SegField[18] = f"{str(SegField[19])}<br>\nالغرض من المنافسة: {The_purpose_of_the_competition}<br>\nقيمة وثائق المنافسة: {The_value_of_competition_documents}<br>\nرقم المنافسة: {Competition_number}\

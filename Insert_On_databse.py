@@ -119,7 +119,7 @@ def create_filename(get_htmlSource , SegFeild):
         try:
             File_path = "Z:\\" + Fileid + ".html"
             file1 = open(File_path, "w", encoding='utf-8')
-            Final_Doc = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" /><title>Tender Document</title></head><BODY><Blockquote style='border:1px solid; padding:10px; font-family: 'fontRegular'!important; direction: rtl; text-align: right;'>" + get_htmlSource + "</Blockquote></BODY></html>"
+            Final_Doc = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" /><title>Tender Document</title></head><BODY><Blockquote style='border:1px solid; padding:10px; font-family: 'fontRegular'!important; direction: rtl; text-align: right;'>" + get_htmlSource + "<br><a href="+str(SegFeild[28])+" target=\"_blank\"><h3 style=\"color:red;\">click here to open main source page<h3></a><br></Blockquote></BODY></html>"
             file1.write(str(Final_Doc))
             file1.close()
             print("Code Reached On create_filename")
